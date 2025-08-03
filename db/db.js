@@ -4,10 +4,8 @@ import mongoose from "mongoose";
 
 const connectDB = async(url) =>{
     try{
-        const dbOption = {
-            dbName : "authsystem"
-        }
-        const response = await mongoose.connect(url , dbOption );
+
+        const response = await mongoose.connect(url);
         if(response){
             console.log("Database connected!");
         }
@@ -16,7 +14,7 @@ const connectDB = async(url) =>{
         }
     }
     catch(err){
-        console.log(error.message);
+        console.log(err.message);
     }
 }
 export default connectDB;

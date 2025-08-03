@@ -2,10 +2,12 @@ import express from "express"
 import connectDB from "./db/db.js";
 import route from "./routes/routes.js";
 import bodyParser from "body-parser";
+import dotenv from "dotenv"
 
+dotenv.config()
 const app = express();
 
-const DATABSEURL = process.env.DATABSEURL || 'mongodb://127.0.0.1:27017/';
+const DATABSEURL = process.env.DATABASE_URL || 'mongodb://localhost:27017/mydb';
 
 const port = 3000;
 
