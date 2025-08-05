@@ -55,7 +55,7 @@ const loginUser = async(req,res)=>{
             const response = await bcrypt.compare(req.body.pwd,user.password);
             if(response){
                 req.session.userId = user.id;
-                res.render('dashboard');
+                res.redirect('/dashboard');
             }
             else{
                 res.redirect('/login')
@@ -71,5 +71,12 @@ const loginUser = async(req,res)=>{
         console.log(err.message)
     }
 }
-
-export {registerUser,home,register,Login,loginUser};
+const islogout =async(req,res)=>{
+    try{
+        req.session.destroy();
+        res.redirect('/login')
+    }catch(err){
+        console.log(err.message)
+    }
+}
+export {registerUser,home,register,Login,loginUser,islogout};

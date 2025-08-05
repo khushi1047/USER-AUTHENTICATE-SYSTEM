@@ -12,7 +12,7 @@ const isLogin = async(req,res,next)=>{
     }
 }
 
-const isLogout = async(req,res,next)=>{
+const isLogout = async(req,res)=>{
     try{
         if(req.session.userId){
             res.redirect('dashboard');
