@@ -2,7 +2,8 @@ import express from "express"
 import connectDB from "./db/db.js";
 import route from "./routes/routes.js";
 import bodyParser from "body-parser";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import session from "express-session";
 
 dotenv.config()
 const app = express();
@@ -16,6 +17,14 @@ connectDB(DATABSEURL)
 
 // body-parser
 app.use(bodyParser.urlencoded())
+
+// session
+app.use(session({
+  secret: 'process.env.SECRET_KEY',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
 
 
 // ejs set-up (all ejs files in views-folder)

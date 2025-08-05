@@ -1,6 +1,8 @@
 import User from "../models/userSchema.js"
 import bcrypt from "bcryptjs"
 
+import session from "express-session"
+
 const home = (req,res)=>{
     // res.send("hello")
     res.render('index')
@@ -25,13 +27,15 @@ const register = async(req,res)=>{
         if(user){
             await user.save();
             console.log("user created")
-            res.render('login')
+            // res.render('login')
+            res.redirect('/login')
         }
         else{
-            console.log('user not created')
+            console.log('user not created');
+            res.redirect('/register');
             // res.render('register')
         }
-        // console.log(req.body);
+     
         
     }
     catch(err){
@@ -40,4 +44,32 @@ const register = async(req,res)=>{
 }
 
 
-export {registerUser,home,register};
+const Login = (req,res)=>{
+    res.render('login');
+}
+
+const loginUser = async(req,res)=>{
+    try{
+        const user = await User.findOne({'email':req.body.email})
+        if(user){
+            const response = await bcrypt.compare(req.body.pwd,user.password);
+            if(response){
+                req.session.userId = user.id;
+                res.render('dashboard');
+            }
+            else{
+                res.redirect('/login')
+            }
+            
+        }
+        else{
+             res.redirect('/login')
+        }
+        
+    }
+    catch(err){
+        console.log(err.message)
+    }
+}
+
+export {registerUser,home,register,Login,loginUser};
